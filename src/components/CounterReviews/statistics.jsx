@@ -1,19 +1,38 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
+const Statistics = props => {
+  return (
+    <div>
+      <ul>
+        {Object.keys(props).map(prop => {
+          return (
+            <li key={prop}>
+              <p>
+                {validationText(prop)}: <span>{props[prop]}</span>
+              </p>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+function validationText(value) {
+  const validPositiveName =
+    value === 'positivePercentage' ? 'positiveFeedback' : value;
 
-const Statistics = (props)=> {
-  return(  
-  <div>
-    <ul>
-        {Object.keys(props).map(prop => (
-        <li key={prop}><p>{prop}: <span>{props[prop]}</span></p></li>))}
-    </ul>
-  </div>
-  )
+  return validPositiveName
+    .replace(/([A-Z])/g, ' $1')
+    .toLowerCase()
+    .replace(/^\w/, c => c.toUpperCase());
 }
-
 export default Statistics;
+
 Statistics.propTypes = {
-  props: PropTypes.object,
-}
+  good: PropTypes.number.isRequired,
+  neutral: PropTypes.number.isRequired,
+  bad: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  positivePercentage: PropTypes.string.isRequired,
+};
